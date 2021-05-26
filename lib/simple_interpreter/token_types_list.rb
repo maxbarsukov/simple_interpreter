@@ -1,17 +1,17 @@
 require_relative 'token_type'
 
 module TokenTypesList
-  NUMBER = TokenType.new('NUMBER', '[0-9]*')
-  VARIABLE = TokenType.new('VARIABLE', '[a-z]*')
+  NUMBER    = TokenType.new('NUMBER', '[0-9]*')
+  VARIABLE  = TokenType.new('VARIABLE', '[a-z]*')
   SEMICOLON = TokenType.new('SEMICOLON', ';')
-  SPACE = TokenType.new('SPACE', '[ \\n\\t\\r]')
+  SPACE     = TokenType.new('SPACE', '[ \\n\\t\\r]')
 
-  ASSIGN = TokenType.new('ASSIGN', 'ASSIGN')
-  LOG = TokenType.new('LOG', 'LOG')
+  ASSIGN    = TokenType.new('ASSIGN', 'ASSIGN')
+  LOG       = TokenType.new('LOG', 'LOG')
 
-  PLUS = TokenType.new('PLUS', 'PLUS')
-  MINUS = TokenType.new('MINUS', 'MINUS')
+  PLUS      = TokenType.new('PLUS', 'PLUS')
+  MINUS     = TokenType.new('MINUS', 'MINUS')
 
-  LPAR = TokenType.new('LPAR', '\\(')
-  RPAR = TokenType.new('RPAR', '\\)')
+  LPAR      = TokenType.new('LPAR', '\\(')
+  RPAR      = TokenType.new('RPAR', '\\)')
 end
