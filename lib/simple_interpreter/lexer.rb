@@ -36,6 +36,6 @@ class Lexer
         return true
       end
     end
-    raise "Script error on position #{@position}"
+    raise "Script error at position #{@position}"
   end
 end
