@@ -1,0 +1,2 @@
+sum ASSIGN 5 PLUS 10;
+LOG sum;
