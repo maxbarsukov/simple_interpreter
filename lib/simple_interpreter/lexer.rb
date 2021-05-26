@@ -15,7 +15,7 @@ class Lexer
   def analyze
     while next_token; end
 
-    @token_list.filter do |token|
+    @token_list.filter! do |token|
       token.type.name != TokenTypesList::TOKEN_TYPES['SPACE'].name
     end
   end
