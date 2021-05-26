@@ -10,4 +10,15 @@ class Lexer
     @position = 0
     @token_list = []
   end
+
+  def analyze
+    while next_token
+      # some analyze here
+    end
+    token_list
+  end
+
+  def next_token
+
+  end
 end
