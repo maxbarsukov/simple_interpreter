@@ -51,12 +51,49 @@ class Parser
   end
 
   def parse_print
+    operator_log = match(TokenTypesList::TOKEN_TYPES['LOG'])
+    if operator_log
+      return UnarOperationNode.new(operator_log,  parse_formula)
+    end
+    raise "A unary LOG operator is expected at the #{@position} position"
   end
 
   def parse_variable_or_number
+    number = match(TokenTypesList::TOKEN_TYPES['NUMBER'])
+    if number
+      return NumberNode.new(number);
+    end
+
+    variable = match(TokenTypesList::TOKEN_TYPES['VARIABLE'])
+    if variable
+      return VariableNode.new(variable);
+    end
+    raise "A variable or number is expected at the #{@position} position"
   end
 
   def parse_formula
+    left_node = parse_parentheses
+    operator = match(TokenTypesList::TOKEN_TYPES['MINUS'],
+                     TokenTypesList::TOKEN_TYPES['PLUS'])
+
+    while operator
+      right_node = parse_parentheses
+      left_node = BinOperationNode.new(operator, left_node, right_node);
+
+      operator = match(TokenTypesList::TOKEN_TYPES['MINUS'],
+                       TokenTypesList::TOKEN_TYPES['PLUS'])
+    end
+    left_node
+  end
+
+  def parse_parentheses
+    if match(TokenTypesList::TOKEN_TYPES['LPAR'])
+      node = this.parse_formula
+      require_token(TokenTypesList::TOKEN_TYPES['RPAP'])
+      node
+    else
+      parse_variable_or_number
+    end
   end
 
   def require_token(*expected)
