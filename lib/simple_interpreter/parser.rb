@@ -20,6 +20,50 @@ class Parser
     @scope = {}
   end
 
+  def run(node)
+    if node.instance_of? NumberNode
+      return node.number.text.to_i
+    end
+
+    if node.instance_of? UnarOperationNode
+      case node.operator.type.name
+      when TokenTypesList::TOKEN_TYPES['LOG'].name
+        puts run(node.operand)
+        return nil
+      end
+    end
+
+    if node.instance_of? BinOperationNode
+      case node.operator.type.name
+      when TokenTypesList::TOKEN_TYPES['PLUS'].name
+        return run(node.left_node) + run(node.right_node)
+      when TokenTypesList::TOKEN_TYPES['MINUS'].name
+        return run(node.left_node) - run(node.right_node)
+      when TokenTypesList::TOKEN_TYPES['ASSIGN'].name
+        result = run(node.right_node)
+        variable_node = node.left_node
+        @scope[variable_node.variable.text] = result
+        return result
+      end
+    end
+
+    if node.instance_of? VariableNode
+      if @scope[node.variable.text]
+        return @scope[node.variable.text]
+      else
+        raise "A variable named #{node.variable.text} not detected"
+      end
+    end
+
+    if node.instance_of? StatementsNode
+      node.code_strings.each do |code_string|
+        run(code_string)
+      end
+      return
+    end
+    raise "Error!"
+  end
+
   def parse_code
     root = StatementsNode.new
     while @position < @tokens.size
